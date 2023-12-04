@@ -2,6 +2,7 @@
 include 'header.php';
 ?>
 <link rel="stylesheet" href="../style/login.css">
+<script src="/scripts/script.js" defer></script>
 <title>FreeMusic - Login</title>
 
 <body>
