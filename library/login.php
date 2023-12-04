@@ -16,17 +16,17 @@ include 'header.php';
                                     <div class="text-center">
                                         <img src="https://i.imgur.com/g9iXQsK.png" style="width: 300px;" alt="logo">
                                     </div>
-                                    <form name="login-form">
+                                    <form name="login-form" method="POST" onsubmit="validateLogin(); return false;">
                                         <p>Faça login em sua conta:</p>
 
                                         <div class="form-outline mb-4">
-                                            <input type="text" id="form2Example11" class="form-control" placeholder="nome de usuário" />
-                                            <label class="form-label" for="form2Example11">Usuário</label>
+                                            <input type="text" id="usuario" class="form-control" placeholder="nome de usuário" />
+                                            <label class="form-label" for="usuario">Usuário</label>
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="password" id="form2Example22" class="form-control" placeholder="senha" />
-                                            <label class="form-label" for="form2Example22">Senha</label>
+                                            <input type="password" id="senha" class="form-control" placeholder="senha" />
+                                            <label class="form-label" for="senha">Senha</label>
                                         </div>
 
                                         <div class="text-center pt-1 mb-5 pb-1">
