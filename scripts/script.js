@@ -7,7 +7,6 @@
             username: username,
             password: password
         };
-
         // Faça a chamada AJAX
         fetch('api.php', {
             method: 'POST',
