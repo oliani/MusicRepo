@@ -1,67 +1,66 @@
 <?php
 
-// Função para se conectar ao banco de dados
-function connectDB() {
-    $servername = "localhost";
-    $username = "root";
-    $password = "root";
-    $dbname = "freemusic";
+include('/config/db_config.php');
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+// Conectar ao banco de dados
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Estado da conexão
-    if ($conn->connect_error) {
-        die("Conexão falhou: " . $conn->connect_error);
-    }
-
-    return $conn;
+// Verificar a conexão
+if ($conn->connect_error) {
+    die("Conexão falhou: " . $conn->connect_error);
 }
 
 // Verificar se a solicitação é do tipo POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    // Pegando dados do corpo da solicitação
+    // Obter dados do corpo da solicitação
     $data = json_decode(file_get_contents("php://input"), true);
 
-    // Verificar se os usuário e senha foram passados corretamente
+    // Verificar se os campos obrigatórios (username e password) estão presentes
     if (isset($data['username']) && isset($data['password'])) {
 
-        // cria a conexão com o DB
-        $conn = connectDB();
-
-        // Prepara a consulta SQL
-        $stmt = $conn->prepare("SELECT * FROM person WHERE username = ? AND password = ?");
+        // Consulta SQL para verificar as credenciais
+        $query = "SELECT * FROM person WHERE username = ? AND password = ?";
+        $stmt = $conn->prepare($query);
         $stmt->bind_param("ss", $data['username'], $data['password']);
         $stmt->execute();
 
         // Obter resultados
         $result = $stmt->get_result();
 
-        if ($result->num_rows === 1) {
-            // auth ok
-            $response = array('status' => 'success', 'message' => 'Autenticação OK');
+        if ($result->num_rows == 1) {
+            // Autenticação bem-sucedida
+            $response = array('status' => 'success', 'message' => 'Autenticação bem-sucedida');
         } else {
-            // Falha de auth
-            $response = array('status' => 'error', 'message' => 'Falhou na auth');
+            // Falha na autenticação
+            $response = array('status' => 'error', 'message' => 'Credenciais inválidas');
         }
 
-        // Fechar a conexão
+        // Fechar a conexão e liberar recursos
         $stmt->close();
-        $conn->close();
 
     } else {
-        // Falta usuário e senha
-        $response = array('status' => 'error', 'message' => 'Usuário e/ou senha não informados');
+        // Campos obrigatórios ausentes
+        $response = array('status' => 'error', 'message' => 'Campos obrigatórios ausentes');
     }
+
+    // Definir cabeçalhos para indicar que a resposta é JSON
+    header('Content-Type: application/json');
+
+    // Enviar resposta JSON ao cliente
+    echo json_encode($response);
 
 } else {
     // Método não suportado
-    $response = array('status' => 'error', 'message' => 'Método não suportado - [use o método POST]');
+    $response = array('status' => 'error', 'message' => 'Método não suportado');
+
+    // Definir cabeçalhos para indicar que a resposta é JSON
+    header('Content-Type: application/json');
+
+    // Enviar resposta JSON ao cliente
+    echo json_encode($response);
 }
 
-// Definindo o header
-header('Content-Type: application/json');
-
-// resposta em json que volta oa cliente
-echo json_encode($response);
+// Fechar a conexão
+$conn->close();
 ?>

@@ -32,3 +32,25 @@
         });
     }
 
+    function submitForm() {
+        // Obter dados do formulário
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+    
+        // Enviar dados para o servidor usando AJAX
+        $.ajax({
+            type: 'POST',
+            url: 'api.php',
+            data: JSON.stringify({username: username, password: password}),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(response) {
+                // Exibir a resposta do servidor
+                $("#result").html(response.message);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+
