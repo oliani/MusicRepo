@@ -4,6 +4,5 @@
       header('Location: ./library/login.php');
     }
     ?>
-    
 
     </html>
