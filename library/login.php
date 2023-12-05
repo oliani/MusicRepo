@@ -2,7 +2,7 @@
 include 'header.php';
 ?>
 <link rel="stylesheet" href="../style/login.css">
-<script src="/scripts/script.js" defer></script>
+<script src="../scripts/login.js" defer></script>
 <title>FreeMusic - Login</title>
 
 <body>
@@ -21,17 +21,17 @@ include 'header.php';
                                         <p>Faça login em sua conta:</p>
 
                                         <div class="form-outline mb-4">
-                                            <input type="text" id="usuario" class="form-control" placeholder="nome de usuário" />
+                                            <input type="text" id="user" class="form-control" placeholder="nome de usuário" required/>
                                             <label class="form-label" for="usuario">Usuário</label>
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="password" id="senha" class="form-control" placeholder="senha" />
+                                            <input type="password" id="pass" class="form-control" placeholder="senha" required/>
                                             <label class="form-label" for="senha">Senha</label>
                                         </div>
 
                                         <div class="text-center pt-1 mb-5 pb-1">
-                                            <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" onclick="submitForm()">Entrar</button>
+                                            <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" id="login-button">Entrar</button>
                                             <a class="text-muted" href="recovery.php">Esqueci minha senha...</a>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-center pb-4">
@@ -55,54 +55,5 @@ include 'header.php';
         </div>
     </section>
 </body>
-
-<script>
-    function calculateHash() {
-        var inputString = document.getElementById('inputString').value;
-        var hashResult = sha256(inputString);
-
-        // Exibir resultados na página
-        document.getElementById('resultString').innerText = inputString;
-        document.getElementById('resultHash').innerText = hashResult;
-
-        // Inserir o valor calculado no campo hidden antes de enviar o formulário
-        var hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'hashedString';
-        hiddenInput.value = hashResult;
-        document.getElementById('hashForm').appendChild(hiddenInput);
-
-        // Enviar o formulário
-        document.getElementById('hashForm').submit();
-    }
-
-    // Exemplo de função para calcular SHA-256 usando uma biblioteca externa (por exemplo, crypto-js)
-    function sha256(input) {
-        // Implementação do cálculo do hash SHA-256 usando a biblioteca crypto-js
-        // Certifique-se de incluir a biblioteca no seu projeto
-        // Exemplo de inclusão: <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js">
-    }
-
-    /** PHP: **/
-    /*
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Receber a string e o hash do formulário
-    $inputString = $_POST["inputString"];
-    $hashedString = $_POST["hashedString"];
-
-    // Verificar se o hash recebido é válido
-    // Lembre-se de realizar a validação apropriada, dependendo dos requisitos do seu aplicativo
-
-    // Agora você pode usar $inputString e $hashedString conforme necessário
-}
-?>
-
-    */
-</script>
-
-
-
-
-
 
 </html>

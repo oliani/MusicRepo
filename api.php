@@ -1,66 +1,59 @@
 <?php
+header('Content-Type: application/json');
 
-include('/config/db_config.php');
+// Recebe os dados da requisição
+$input = file_get_contents("php://input");
+$data = json_decode($input);
 
-// Conectar ao banco de dados
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Extrai o nome de usuário e senha
+$username = $decodedData->username;
+$password = $decodedData->password;
 
-// Verificar a conexão
-if ($conn->connect_error) {
-    die("Conexão falhou: " . $conn->connect_error);
+// Verifica se os dados foram recebidos corretamente
+if (!isset($data->username) || !isset($data->password)) {
+    http_response_code(400);
+    echo json_encode(array("mensagem" => "Dados incompletos."));
+    exit();
 }
 
-// Verificar se a solicitação é do tipo POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    // Obter dados do corpo da solicitação
-    $data = json_decode(file_get_contents("php://input"), true);
+// Converte os dados codificados usando base64_decode
+$decodedData = json_decode(base64_decode($input));
 
-    // Verificar se os campos obrigatórios (username e password) estão presentes
-    if (isset($data['username']) && isset($data['password'])) {
+// Conecta ao banco de dados (substitua 'root' e '' pelos valores reais do seu usuário e senha do PHPMyAdmin)
+$mysqli = new mysqli("localhost", "root", "", "freemusic");
 
-        // Consulta SQL para verificar as credenciais
-        $query = "SELECT * FROM person WHERE username = ? AND password = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("ss", $data['username'], $data['password']);
-        $stmt->execute();
+// Verifica a conexão
+if ($mysqli->connect_error) {
+    http_response_code(500);
+    echo json_encode(array("mensagem" => "Erro na conexão com o banco de dados."));
+    exit();
+}
 
-        // Obter resultados
-        $result = $stmt->get_result();
+// Escapa os dados para evitar SQL injection
+$username = $mysqli->real_escape_string($decodedData->username);
 
-        if ($result->num_rows == 1) {
-            // Autenticação bem-sucedida
-            $response = array('status' => 'success', 'message' => 'Autenticação bem-sucedida');
-        } else {
-            // Falha na autenticação
-            $response = array('status' => 'error', 'message' => 'Credenciais inválidas');
-        }
+// Consulta o banco de dados para obter as informações do usuário
+$query = "SELECT * FROM users WHERE username = '$username'";
+$result = $mysqli->query($query);
 
-        // Fechar a conexão e liberar recursos
-        $stmt->close();
-
+if ($result->num_rows > 0) {
+    $user = $result->fetch_assoc();
+    // Verifica se a senha está correta usando password_verify
+    if (password_verify($decodedData->password, $user['password'])) {
+        // Senha correta, login bem-sucedido
+        http_response_code(200);
+        echo json_encode(array("mensagem" => "Login bem-sucedido"));
     } else {
-        // Campos obrigatórios ausentes
-        $response = array('status' => 'error', 'message' => 'Campos obrigatórios ausentes');
+        // Senha incorreta
+        http_response_code(401);
+        echo json_encode(array("mensagem" => "Senha incorreta"));
     }
-
-    // Definir cabeçalhos para indicar que a resposta é JSON
-    header('Content-Type: application/json');
-
-    // Enviar resposta JSON ao cliente
-    echo json_encode($response);
-
 } else {
-    // Método não suportado
-    $response = array('status' => 'error', 'message' => 'Método não suportado');
-
-    // Definir cabeçalhos para indicar que a resposta é JSON
-    header('Content-Type: application/json');
-
-    // Enviar resposta JSON ao cliente
-    echo json_encode($response);
+    // Usuário não encontrado
+    http_response_code(404);
+    echo json_encode(array("mensagem" => "Usuário não encontrado"));
 }
 
-// Fechar a conexão
-$conn->close();
+// Fecha a conexão com o banco de dados
+$mysqli->close();
 ?>
