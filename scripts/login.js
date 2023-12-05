@@ -51,7 +51,19 @@ async function fazerLogin(username, password) {
 
   // Faça a chamada da API
   let response = await fetch("../api.php", requestOptions);
-  let responseData = await response.json();
+
+  // Verifique o tipo de conteúdo da resposta
+  const contentType = response.headers.get("Content-Type");
+  
+  let responseData;
+
+  if (contentType && contentType.includes("application/json")) {
+    // Se for JSON, analise a resposta
+    responseData = await response.json();
+  } else {
+    // Se não for JSON, apenas leia o texto diretamente
+    responseData = await response.text();
+  }
 
   // Trate a resposta da API conforme necessário
   if (response.ok) {
