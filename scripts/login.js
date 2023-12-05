@@ -69,10 +69,8 @@ async function fazerLogin(username, password) {
   if (response.ok) {
     console.log("Login bem-sucedido:", responseData);
     // Adicione aqui o código para redirecionar o usuário ou realizar outras ações após o login bem-sucedido
-    return 0;
   } else {
     console.error("Erro na API:", responseData);
     // Adicione aqui o código para lidar com erros de login, como exibir uma mensagem de erro para o usuário
-    return responseData;
   }
 }
