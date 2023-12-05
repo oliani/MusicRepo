@@ -13,7 +13,9 @@ $password = $data->password;
 // Verifica se os dados foram recebidos corretamente
 if (!isset($data->username) || !isset($data->password)) {
     http_response_code(400);
-    echo json_encode(array("mensagem" => `Dados incompletos $data->username | $data->password`));
+    $mensagemErro = "Dados incompletos " . json_encode($data);
+    error_log($mensagemErro);
+    echo json_encode(array("mensagem" => "Dados incompletos"));
     exit();
 }
 
