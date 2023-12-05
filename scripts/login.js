@@ -44,6 +44,7 @@ async function fazerLogin(username, password) {
       "Content-Type": "application/json",
       Authorization: "Basic " + dadosCodificados,
     },
+    body: JSON.stringify(dados)
   };
 
   try {
@@ -61,7 +62,12 @@ async function fazerLogin(username, password) {
     }
 
     if (response.ok) {
-      console.log("Login bem-sucedido:", responseData);
+      if (responseData.status){
+        console.log("Login bem-sucedido:", responseData);
+      } else {
+        console.log(responseData.mensagem)
+      }
+      
       // Adicionar aqui o código para redirecionar o usuário ou realizar outras ações após o login bem-sucedido
     } else {
       console.error("Erro na API:", responseData);
