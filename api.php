@@ -5,12 +5,6 @@ header('Content-Type: application/json');
 $input = file_get_contents("php://input");
 $data = json_decode($input);
 
-// Verifica se os dados foram recebidos corretamente
-if (!isset($data->username) || !isset($data->password)) {
-    http_response_code(400);
-    echo json_encode(array("mensagem" => "Dados incompletos."));
-    exit();
-}
 
 // Extrai o nome de usuário e senha
 $username = $data->username;
@@ -19,7 +13,7 @@ $password = $data->password;
 // Verifica se os dados foram recebidos corretamente
 if (!isset($data->username) || !isset($data->password)) {
     http_response_code(400);
-    echo json_encode(array("mensagem" => "Dados incompletos."));
+    echo json_encode(array("mensagem" => `Dados incompletos $data->username | $data->password`));
     exit();
 }
 
