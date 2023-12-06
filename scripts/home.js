@@ -29,7 +29,7 @@ function renderizarConteudo(conteudo) {
                     <h5 class="card-title">${item.title}</h5>
                     <p class="card-text">Autor: ${item.author}</p>
                     <p class="card-text text-muted">Nota: ${item.note}</p>
-                    <button class="btn btn-primary" onclick="baixarMusica('${item.path}')">Ir para o Video</button>
+                    <button class="btn btn-primary" onclick="redirecionar('${item.path}')">Ir para o Video</button>
                 </div>
             </div>
         `;
@@ -38,10 +38,8 @@ function renderizarConteudo(conteudo) {
     });
 }
 
-async function baixarMusica(caminho) {
-    // Lógica para download ou redirecionamento
-    console.log("Iniciando download da música:", caminho);
-    // Adicione lógica para redirecionar ou processar o download conforme necessário
+async function redirecionar(caminho) {
+    window.location.href = caminho;
 }
 
 fetchBuscaMusicas();
@@ -65,7 +63,7 @@ document.getElementById("adicionar").addEventListener("click", async (event) => 
 
     try {
         // Enviar solicitação para a API (substitua a URL pela sua API)
-        const response = await fetch('sua_api_endpoint_para_insercao', {
+        const response = await fetch("../api_login.php", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -14,10 +14,9 @@ include 'header.php';
     </header>
     <div class="container mt-3">
         <div id="itens" class="row">
-            <!-- Conteúdo dos itens da música -->
+
         </div>
         
-        <!-- Botão para adicionar música -->
         <?php if ($_SESSION['usuario']['type'] === 'admin') : ?>
             <div class="text-center mt-3">
                 <button class="btn btn-success" data-toggle="modal" data-target="#adicionarMusicaModal">Adicionar Música</button>
@@ -26,7 +25,6 @@ include 'header.php';
         <?php endif; ?>
     </div>
 
-    <!-- Adicione o modal para adicionar música -->
     <div class="modal fade" id="adicionarMusicaModal" tabindex="-1" role="dialog" aria-labelledby="adicionarMusicaModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
