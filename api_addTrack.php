@@ -11,8 +11,7 @@ $data = json_decode($input);
 $title = $data->title;
 $author = $data->author;
 $path = $data->path;
-$duration = $data->duration;
-$extension = $data->extension;
+$note = $data->note;
 
 // Verifica se os dados foram recebidos corretamente
 if (!isset($data->title) || !isset($data->author) || !isset($data->path) || !isset($data->duration) || !isset($data->extension)) {
@@ -22,7 +21,7 @@ if (!isset($data->title) || !isset($data->author) || !isset($data->path) || !iss
 }
 
 // Conecta ao banco de dados (substitua 'root' e '' pelos valores reais do seu usuário e senha do PHPMyAdmin)
-$mysqli = new mysqli("localhost", "root", "", "seu_banco_de_dados");
+$mysqli = new mysqli("localhost", "root", "", "freemusic");
 
 // Verifica a conexão
 if ($mysqli->connect_error) {
@@ -35,11 +34,10 @@ if ($mysqli->connect_error) {
 $title = $mysqli->real_escape_string($title);
 $author = $mysqli->real_escape_string($author);
 $path = $mysqli->real_escape_string($path);
-$duration = $mysqli->real_escape_string($duration);
-$extension = $mysqli->real_escape_string($extension);
+$note = $mysqli->real_escape_string($note);
 
 // Insere a nova música no banco de dados
-$queryInsertTrack = "INSERT INTO track (title, author, path, duration, extension) VALUES ('$title', '$author', '$path', '$duration', '$extension')";
+$queryInsertTrack = "INSERT INTO track (title, author, path, note) VALUES ('$title', '$author', '$path', '$note')";
 $resultInsertTrack = $mysqli->query($queryInsertTrack);
 
 if ($resultInsertTrack) {
@@ -51,7 +49,6 @@ if ($resultInsertTrack) {
     http_response_code(500);
     echo json_encode(array("mensagem" => "Erro ao adicionar música: " . $mysqli->error, "status" => false));
 }
-
 // Fecha a conexão com o banco de dados
 $mysqli->close();
 ?>

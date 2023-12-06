@@ -17,9 +17,9 @@ async function fetchBuscaMusicas() {
 function renderizarConteudo(conteudo) {
     const container = document.querySelector("#itens");
     console.log(conteudo);
-    container.innerHTML = ""; // Limpa o conteúdo existente
+    container.innerHTML = ""; 
 
-    // Itera sobre o conteúdo e adiciona os cards na página
+    // Intera sobre o conteúdo e adiciona os cards na página
     conteudo.forEach((item) => {
         const card = document.createElement("div");
         card.classList.add("col-md-5", "mb-3");
@@ -28,8 +28,8 @@ function renderizarConteudo(conteudo) {
                 <div class="card-body">
                     <h5 class="card-title">${item.title}</h5>
                     <p class="card-text">Autor: ${item.author}</p>
-                    <p class="card-text text-muted">Duração: ${item.duration}</p>
-                    <button class="btn btn-primary" onclick="baixarMusica('${item.path}')">Download</button>
+                    <p class="card-text text-muted">Nota: ${item.note}</p>
+                    <button class="btn btn-primary" onclick="baixarMusica('${item.path}')">Ir para o Video</button>
                 </div>
             </div>
         `;
@@ -53,16 +53,14 @@ document.getElementById("adicionar").addEventListener("click", async (event) => 
     const title = document.getElementById("title").value;
     const author = document.getElementById("author").value;
     const path = document.getElementById("path").value;
-    const duration = document.getElementById("duration").value;
-    const extension = document.getElementById("extension").value;
+    const note = document.getElementById("note").value;
 
     // Montar objeto com os dados
     const formData = {
         title: title,
         author: author,
         path: path,
-        duration: duration,
-        extension: extension
+        note: note,
     };
 
     try {

@@ -10,9 +10,6 @@ document
     let username = usernameInput.value.trim();
     let pass = passwordInput.value.trim();
 
-    // debug
-    console.log("User = " + username + " | Pass = " + pass);
-
     if (username === "") {
       console.log("Nome de usuário vazio");
     } else if (pass === "") {
@@ -34,9 +31,6 @@ async function fazerLogin(username, password) {
     username: username,
     password: password,
   };
-
-  // let dadosCodificados = btoa(JSON.stringify(dados));
-  // console.log('btoa = ' + dadosCodificados);
 
   let requestOptions = {
     method: "POST",

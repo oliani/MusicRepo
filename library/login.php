@@ -3,7 +3,7 @@ include 'header.php';
 ?>
 <link rel="stylesheet" href="../style/login.css">
 <script src="../scripts/login.js" defer></script>
-<title>FreeMusic - Login</title>
+<title>DamnMusic - Login</title>
 
 <body>
     <section class="h-100 gradient-form" style="background-color: #eee;">
@@ -15,7 +15,7 @@ include 'header.php';
                             <div class="col-lg-6 bg-dark text-white">
                                 <div class="card-body p-md-5 mx-md-4">
                                     <div class="text-center">
-                                        <img src="https://i.imgur.com/g9iXQsK.png" style="width: 300px;" alt="logo">
+                                        <h1> DAMN MUSIC!</h1>
                                     </div>
                                     <form name="login-form" method="POST">
                                         <p>Faça login em sua conta:</p>
@@ -45,7 +45,7 @@ include 'header.php';
                             </div>
                             <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
                                 <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                                    <h4 class="mb-4">A sua biblioteca de músicas sem direitos autorais!</h4>
+                                    <h4 class="mb-4">O seu site de avalicoes de pessoas nada competentes!</h4>
                                 </div>
                             </div>
                         </div>

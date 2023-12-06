@@ -22,6 +22,7 @@ include 'header.php';
             <div class="text-center mt-3">
                 <button class="btn btn-success" data-toggle="modal" data-target="#adicionarMusicaModal">Adicionar Música</button>
             </div>
+
         <?php endif; ?>
     </div>
 
@@ -46,16 +47,12 @@ include 'header.php';
                         <input type="text" class="form-control" id="author" placeholder="Autor">
                     </div>
                     <div class="form-group">
-                        <label for="path">link do download</label>
+                        <label for="path">link da Musica</label>
                         <input type="text" class="form-control" id="path" placeholder="link">
                     </div>
                     <div class="form-group">
-                        <label for="curation">duracao</label>
-                        <input type="text" class="form-control" id="duration" placeholder="duracao">
-                    </div>
-                    <div class="form-group">
-                        <label for="extension">extensao</label>
-                        <input type="text" class="form-control" id="extencion" placeholder="extensao">
+                        <label for="note">Nota</label>
+                        <input type="text" class="form-control" id="note" placeholder="nota">
                     </div>
                       <button id="adicionar" type="button" class="btn btn-primary">Adicionar</button>
                     </form>
