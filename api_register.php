@@ -1,7 +1,6 @@
 <?php
 header('Content-Type: application/json');
 
-
 error_reporting(0);
 
 // Recebe os dados da requisição
