@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-
+session_start();
 error_reporting(0);
 
 // Recebe os dados da requisição
@@ -48,6 +48,7 @@ if ($result->num_rows > 0) {
         // Senha correta, login bem-sucedido
         http_response_code(200);
         echo json_encode(array("mensagem" => "Login bem-sucedido", "status" => true));
+        $_SESSION['usuario'] = $user;
     } else {
         // Senha incorreta
         http_response_code(401);
