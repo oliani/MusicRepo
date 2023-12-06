@@ -1,8 +1,6 @@
 <?php
 header('Content-Type: application/json');
 
-error_reporting(0);
-
 // Conecta ao banco de dados
 $mysqli = new mysqli("localhost", "root", "", "freemusic");
 
@@ -14,7 +12,7 @@ if ($mysqli->connect_error) {
 }
 
 // Consulta para obter o conteúdo da tabela TRACK
-$query = "SELECT id, title, author, duration FROM TRACK";
+$query = "SELECT id, title, author, duration FROM track";
 $result = $mysqli->query($query);
 
 if (!$result) {
