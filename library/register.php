@@ -13,30 +13,30 @@ include 'header.php';
                         <div class="row g-0">
                             <div class="col-lg-6 bg-dark text-white">
                                 <div class="card-body p-md-5 mx-md-4">
-                                    <form name="login-form">
+                                    <form name="register-form" method="POST">
                                         <H3>Cadastrar nova conta:</H3>
 
                                         <div class="form-outline mb-4">
-                                            <input type="text" id="form2Example11" class="form-control" placeholder="nome de usuário" />
-                                            <label class="form-label" for="form2Example11">Usuário</label>
+                                            <input type="text" id="usuario" class="form-control" placeholder="nome de usuário" required/>
+                                            <label class="form-label" for="usuario">Usuário</label>
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="email" id="form2Example11" class="form-control" placeholder="seu@email.com.br" />
-                                            <label class="form-label" for="form2Example11">E-mail</label>
+                                            <input type="email" id="email" class="form-control" placeholder="seu@email.com.br" required/>
+                                            <label class="form-label" for="email">E-mail</label>
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="password" id="form2Example22" class="form-control" placeholder="******" />
-                                            <label class="form-label" for="form2Example22">Senha</label>
+                                            <input type="password" id="senha" class="form-control" placeholder="******" required/>
+                                            <label class="form-label" for="senha">Senha</label>
                                         </div>
                                         <div class="form-outline mb-4">
-                                            <input type="password" id="form2Example22" class="form-control" placeholder="******" />
-                                            <label class="form-label" for="form2Example22">Redigite sua senha</label>
+                                            <input type="password" id="redsenha" class="form-control" placeholder="******" required/>
+                                            <label class="form-label" for="redsenha">Redigite sua senha</label>
                                         </div>
 
                                         <div class="text-center pt-1 mb-5 pb-1">
-                                            <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Concluir</button>
+                                            <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" id="register-button">Concluir</button>
                                             <a class="text-muted" href="login.php"> < Voltar para tela de login</a>
                                         </div>
                                     </form>

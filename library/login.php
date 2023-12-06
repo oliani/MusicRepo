@@ -17,7 +17,7 @@ include 'header.php';
                                     <div class="text-center">
                                         <img src="https://i.imgur.com/g9iXQsK.png" style="width: 300px;" alt="logo">
                                     </div>
-                                    <form name="login-form" method="POST" onsubmit="validateLogin(); return false;">
+                                    <form name="login-form" method="POST">
                                         <p>Faça login em sua conta:</p>
 
                                         <div class="form-outline mb-4">
