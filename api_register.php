@@ -22,7 +22,7 @@ if (!isset($data->username) || !isset($data->email) || !isset($data->password)) 
 }
 
 // Converte os dados codificados usando base64_decode (se necessário)
-// $decodedData = json_decode(base64_decode($input));
+ $decodedData = json_decode(base64_decode($input));
 
 // Conecta ao banco de dados (substitua 'root' e '' pelos valores reais do seu usuário e senha do PHPMyAdmin)
 $mysqli = new mysqli("localhost", "root", "", "freemusic");
@@ -49,10 +49,11 @@ if ($resultCheckUser->num_rows > 0) {
     exit();
 }
 
-// Insere o novo usuário no banco de dados
+// Hash da senha
 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-$queryInsertUser = "INSERT INTO person (username, email, password) VALUES ('$username', '$email', '$passwordHash')";
+// Insere o novo usuário no banco de dados
+$queryInsertUser = "INSERT INTO person ('username', 'email', 'password') VALUES ('$username', '$email', '$passwordHash')";
 $resultInsertUser = $mysqli->query($queryInsertUser);
 
 if ($resultInsertUser) {
@@ -62,9 +63,10 @@ if ($resultInsertUser) {
 } else {
     // Erro ao inserir usuário
     http_response_code(500);
-    echo json_encode(array("mensagem" => "Erro ao realizar registro", "status" => false));
+    echo json_encode(array("mensagem" => "Erro ao realizar registro: " . $mysqli->error, "status" => false));
 }
 
 // Fecha a conexão com o banco de dados
 $mysqli->close();
+
 ?>

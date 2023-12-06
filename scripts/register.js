@@ -13,16 +13,10 @@ document.getElementById("register-button").addEventListener("click", async (even
     let confirmPassword = confirmPasswordInput.value.trim();
 
     // debug
-    // console.log("User = " + username + " | Email = " + email + " | Pass = " + password + " | Confirm Pass = " + confirmPassword);
+    console.log("User = " + username + " | Email = " + email + " | Pass = " + password + " | Confirm Pass = " + confirmPassword);
 
-    if (username === "") {
-        console.log("Nome de usuário vazio");
-    } else if (email === "") {
-        console.log("E-mail vazio");
-    } else if (password === "") {
-        console.log("Senha vazia");
-    } else if (confirmPassword === "") {
-        console.log("Confirmação de senha vazia");
+    if (username === "" || email === "" || password === "" || confirmPassword === "") {
+        console.log("Preencha todos os campos.");
     } else if (password !== confirmPassword) {
         console.log("Senhas não coincidem");
     } else {
@@ -54,7 +48,7 @@ async function realizarRegistro(username, email, password) {
     };
 
     try {
-        let response = await fetch("../api_registro.php", requestOptions);
+        let response = await fetch("../api_register.php", requestOptions);
 
         // Verificar o tipo de conteúdo da resposta
         const contentType = response.headers.get("Content-Type");
