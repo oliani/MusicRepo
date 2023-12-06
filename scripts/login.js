@@ -64,6 +64,8 @@ async function fazerLogin(username, password) {
     if (response.ok) {
       if (responseData.status){
         console.log("Login bem-sucedido:", responseData);
+        window.location.href = "../library/home.php";
+
       } else {
         console.log(responseData.mensagem)
       }
