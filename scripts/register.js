@@ -1,6 +1,9 @@
-document.getElementById("register-button").addEventListener("click", async (event) => {
+document
+ .getElementById("register-button")
+ .addEventListener("click", async (event) => {
     event.preventDefault();
 
+    console.log('oi');
     let usernameInput = document.getElementById("usuario");
     let emailInput = document.getElementById("email");
     let passwordInput = document.getElementById("senha");
@@ -64,7 +67,8 @@ async function realizarRegistro(username, email, password) {
         if (response.ok) {
             if (responseData.status) {
                 console.log("Registro bem-sucedido:", responseData);
-                // Adicionar aqui o código para redirecionar o usuário ou realizar outras ações após o registro bem-sucedido
+                window.location.href = "../library/login.php";
+            
             } else {
                 console.log(responseData.mensagem);
             }

@@ -42,8 +42,9 @@ $result = $mysqli->query($query);
 
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
+
     // Verifica se a senha está correta usando password_verify
-    if ($password === $user['password']) {
+    if (password_verify($password, $user['password'])) {
         // Senha correta, login bem-sucedido
         http_response_code(200);
         echo json_encode(array("mensagem" => "Login bem-sucedido", "status" => true));

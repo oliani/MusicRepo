@@ -48,7 +48,7 @@ async function fazerLogin(username, password) {
   };
 
   try {
-    let response = await fetch("../api.php", requestOptions);
+    let response = await fetch("../api_login.php", requestOptions);
 
     // Verificar o tipo de conteúdo da resposta
     const contentType = response.headers.get("Content-Type");

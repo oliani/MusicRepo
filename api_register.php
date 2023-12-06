@@ -1,8 +1,6 @@
 <?php
 header('Content-Type: application/json');
 
-error_reporting(0);
-
 // Recebe os dados da requisição
 $input = file_get_contents("php://input");
 $data = json_decode($input);
@@ -53,7 +51,7 @@ if ($resultCheckUser->num_rows > 0) {
 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
 // Insere o novo usuário no banco de dados
-$queryInsertUser = "INSERT INTO person ('username', 'email', 'password') VALUES ('$username', '$email', '$passwordHash')";
+$queryInsertUser = "INSERT INTO person (username, email, password) VALUES ('$username', '$email', '$passwordHash')";
 $resultInsertUser = $mysqli->query($queryInsertUser);
 
 if ($resultInsertUser) {
