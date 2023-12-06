@@ -57,7 +57,7 @@ include 'header.php';
                         <label for="extension">extensao</label>
                         <input type="text" class="form-control" id="extencion" placeholder="extensao">
                     </div>
-                      <button type="submit" class="btn btn-primary">Adicionar</button>
+                      <button id="adicionar" type="button" class="btn btn-primary">Adicionar</button>
                     </form>
                 </div>
             </div>
