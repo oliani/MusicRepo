@@ -1,12 +1,10 @@
-document
-  .getElementById("finish-button")
-  .addEventListener("click", async (event) => {
+document.getElementById("register-button").addEventListener("click", async (event) => {
     event.preventDefault();
 
-    let usernameInput = document.getElementById("user-input");
-    let emailInput = document.getElementById("email-input");
-    let passwordInput = document.getElementById("pass-input");
-    let confirmPasswordInput = document.getElementById("pass2-input");
+    let usernameInput = document.getElementById("usuario");
+    let emailInput = document.getElementById("email");
+    let passwordInput = document.getElementById("senha");
+    let confirmPasswordInput = document.getElementById("redsenha");
 
     // Limpa espaços indesejados
     let username = usernameInput.value.trim();
@@ -14,74 +12,67 @@ document
     let password = passwordInput.value.trim();
     let confirmPassword = confirmPasswordInput.value.trim();
 
-    // Validar se as senhas coincidem
-    if (password !== confirmPassword) {
-      console.log("As senhas não coincidem");
-      return;
-    }
-
     // debug
-    console.log("User = " + username + " | Email = " + email + " | Pass = " + password);
+    console.log("User = " + username + " | Email = " + email + " | Pass = " + password + " | Confirm Pass = " + confirmPassword);
 
-    if (username === "" || email === "" || password === "") {
-      console.log("Preencha todos os campos obrigatórios");
+    if (username === "" || email === "" || password === "" || confirmPassword === "") {
+        console.log("Preencha todos os campos.");
+    } else if (password !== confirmPassword) {
+        console.log("Senhas não coincidem");
     } else {
-      console.log("Todos os campos preenchidos");
-      try {
-        // Chama a função para enviar os dados para a API
-        await fazerRegistro(username, email, password);
-      } catch (error) {
-        console.error("Erro ao fazer registro:", error);
-      }
+        console.log("Todos os campos preenchidos corretamente");
+        try {
+            // Chama a função para enviar os dados para a API
+            await realizarRegistro(username, email, password);
+        } catch (error) {
+            console.error("Erro ao realizar registro:", error);
+        }
     }
-  });
+});
 
-// Função para fazer registro usando a API em PHP
-async function fazerRegistro(username, email, password) {
-  let dados = {
-    username: username,
-    email: email,
-    password: password,
-  };
+// Função para realizar o registro usando uma API em PHP
+async function realizarRegistro(username, email, password) {
+    let dados = {
+        username: username,
+        email: email,
+        password: password,
+    };
 
-  let dadosCodificados = btoa(JSON.stringify(dados));
-  console.log('btoa = ' + dadosCodificados);
+    let requestOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic ",
+        },
+        body: JSON.stringify(dados),
+    };
 
-  let requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Basic " + dadosCodificados,
-    },
-    body: JSON.stringify(dados),
-  };
+    try {
+        let response = await fetch("../api_register.php", requestOptions);
 
-  try {
-    let response = await fetch("../api_registro.php", requestOptions);
+        // Verificar o tipo de conteúdo da resposta
+        const contentType = response.headers.get("Content-Type");
 
-    // Verificar o tipo de conteúdo da resposta
-    const contentType = response.headers.get("Content-Type");
+        let responseData;
 
-    let responseData;
+        if (contentType && contentType.includes("application/json")) {
+            responseData = await response.json();
+        } else {
+            responseData = await response.text();
+        }
 
-    if (contentType && contentType.includes("application/json")) {
-      responseData = await response.json();
-    } else {
-      responseData = await response.text();
+        if (response.ok) {
+            if (responseData.status) {
+                console.log("Registro bem-sucedido:", responseData);
+                // Adicionar aqui o código para redirecionar o usuário ou realizar outras ações após o registro bem-sucedido
+            } else {
+                console.log(responseData.mensagem);
+            }
+        } else {
+            console.error("Erro na API:", responseData);
+            // Adicionar aqui o código para lidar com erros de registro, como exibir uma mensagem de erro para o usuário
+        }
+    } catch (error) {
+        console.error("Erro ao realizar registro:", error);
     }
-
-    if (response.ok) {
-      if (responseData.status) {
-        console.log("Registro bem-sucedido:", responseData);
-        // Adicionar aqui o código para redirecionar o usuário ou realizar outras ações após o registro bem-sucedido
-      } else {
-        console.log(responseData.mensagem);
-      }
-    } else {
-      console.error("Erro na API:", responseData);
-      // Adicionar aqui o código para lidar com erros de registro, como exibir uma mensagem de erro para o usuário
-    }
-  } catch (error) {
-    console.error("Erro ao fazer registro:", error);
-  }
 }

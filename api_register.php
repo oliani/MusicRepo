@@ -7,7 +7,7 @@ error_reporting(0);
 $input = file_get_contents("php://input");
 $data = json_decode($input);
 
-// Extrai o nome de usuário, e-mail e senha
+// Extrai os dados do formulário de registro
 $username = $data->username;
 $email = $data->email;
 $password = $data->password;
@@ -21,8 +21,8 @@ if (!isset($data->username) || !isset($data->email) || !isset($data->password)) 
     exit();
 }
 
-// Converte os dados codificados usando base64_decode
-$decodedData = json_decode(base64_decode($input));
+// Converte os dados codificados usando base64_decode (se necessário)
+ $decodedData = json_decode(base64_decode($input));
 
 // Conecta ao banco de dados (substitua 'root' e '' pelos valores reais do seu usuário e senha do PHPMyAdmin)
 $mysqli = new mysqli("localhost", "root", "", "freemusic");
@@ -38,34 +38,35 @@ if ($mysqli->connect_error) {
 $username = $mysqli->real_escape_string($username);
 $email = $mysqli->real_escape_string($email);
 
+// Verifica se o usuário já existe
+$queryCheckUser = "SELECT * FROM person WHERE username = '$username' OR email = '$email'";
+$resultCheckUser = $mysqli->query($queryCheckUser);
+
+if ($resultCheckUser->num_rows > 0) {
+    // Usuário ou e-mail já existem
+    http_response_code(409); // Conflito
+    echo json_encode(array("mensagem" => "Usuário ou e-mail já existem", "status" => false));
+    exit();
+}
+
 // Hash da senha
-$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+$passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-// Consulta o banco de dados para verificar se o usuário já existe
-$query = "SELECT * FROM person WHERE username = '$username' OR email = '$email'";
-$result = $mysqli->query($query);
+// Insere o novo usuário no banco de dados
+$queryInsertUser = "INSERT INTO person ('username', 'email', 'password') VALUES ('$username', '$email', '$passwordHash')";
+$resultInsertUser = $mysqli->query($queryInsertUser);
 
-if ($result->num_rows > 0) {
-    // Usuário ou e-mail já existente
-    http_response_code(409);
-    echo json_encode(array("mensagem" => "Nome de usuário ou e-mail já cadastrado", "status" => false));
+if ($resultInsertUser) {
+    // Registro bem-sucedido
+    http_response_code(201); // Criado
+    echo json_encode(array("mensagem" => "Registro bem-sucedido", "status" => true));
 } else {
-    // Insere os dados na tabela
-    $insertQuery = "INSERT INTO person (username, email, password) VALUES ('$username', '$email', '$hashedPassword')";
-    if ($mysqli->query($insertQuery)) {
-        // Registro bem-sucedido
-        http_response_code(201);
-        echo json_encode(array("mensagem" => "Registro bem-sucedido", "status" => true));
-    } else {
-        // Erro ao inserir no banco de dados
-        http_response_code(500);
-        echo json_encode(array("mensagem" => "Erro ao registrar usuário", "status" => false));
-    }
+    // Erro ao inserir usuário
+    http_response_code(500);
+    echo json_encode(array("mensagem" => "Erro ao realizar registro: " . $mysqli->error, "status" => false));
 }
 
 // Fecha a conexão com o banco de dados
-/** Falta fazer a lógica de inserir a hash junto do usuário**/
 $mysqli->close();
+
 ?>
-
-

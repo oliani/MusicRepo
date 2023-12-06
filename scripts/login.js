@@ -35,14 +35,14 @@ async function fazerLogin(username, password) {
     password: password,
   };
 
-  let dadosCodificados = btoa(JSON.stringify(dados));
-  console.log('btoa = ' + dadosCodificados);
+  // let dadosCodificados = btoa(JSON.stringify(dados));
+  // console.log('btoa = ' + dadosCodificados);
 
   let requestOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Basic " + dadosCodificados,
+      Authorization: "Basic " ,
     },
     body: JSON.stringify(dados)
   };
@@ -69,7 +69,6 @@ async function fazerLogin(username, password) {
       } else {
         console.log(responseData.mensagem)
       }
-      
       // Adicionar aqui o código para redirecionar o usuário ou realizar outras ações após o login bem-sucedido
     } else {
       console.error("Erro na API:", responseData);
