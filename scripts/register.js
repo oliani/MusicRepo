@@ -2,8 +2,7 @@ document
  .getElementById("register-button")
  .addEventListener("click", async (event) => {
     event.preventDefault();
-
-    console.log('oi');
+    
     let usernameInput = document.getElementById("usuario");
     let emailInput = document.getElementById("email");
     let passwordInput = document.getElementById("senha");

@@ -1,6 +1,9 @@
 <?php
 header('Content-Type: application/json');
 
+
+error_reporting(0);
+
 // Recebe os dados da requisição
 $input = file_get_contents("php://input");
 $data = json_decode($input);
